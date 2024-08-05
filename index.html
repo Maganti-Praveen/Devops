@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4c83ff, #80b3ff);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        h2 {
+            color: #4c83ff;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4c83ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #3a66cc;
+        }
+        #quote {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Enter Hall Ticket Number</h2>
+        <input type="text" id="hallticket" placeholder="Hall Ticket Number">
+        <br>
+        <button onclick="submitHallticket()">Get Result</button>
+        <div id="quote">"If you fail, never give up because FAIL means First Attempt in Learning." - A. P. J. Abdul Kalam</div>
+    </div>
+
+    <script>
+        function submitHallticket() {
+            const hallticket = document.getElementById('hallticket').value.toUpperCase();
+            if (hallticket.trim()) {
+                window.location.href = `result.html?hallticket=${hallticket}`;
+            } else {
+                alert('Please enter a valid Hall Ticket Number');
+            }
+        }
+    </script>
+</body>
+</html>

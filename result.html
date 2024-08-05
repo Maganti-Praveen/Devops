@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Result</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4c83ff, #80b3ff);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        h2 {
+            color: #4c83ff;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Exam Result</h2>
+        <div id="result">Loading...</div>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function getResult() {
+            const hallticket = getQueryParam('hallticket').toUpperCase();
+            try {
+                const response = await fetch('results.csv');
+                const data = await response.text();
+                const rows = data.split('\n').slice(1); // Skip the header row
+                let found = false;
+                for (const row of rows) {
+                    const columns = row.split(',');
+                    if (columns[0].trim().toUpperCase() === hallticket) {
+                        document.getElementById('result').innerHTML = `
+                            <p>Name: ${columns[1].trim()}</p>
+                            <p>SGPA: ${columns[2].trim()}</p>
+                            <p>Result: ${columns[3].trim()}</p>
+                        `;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    document.getElementById('result').innerText = 'Hall Ticket Number not found.';
+                }
+            } catch (error) {
+                console.error('Error fetching the CSV file:', error);
+                document.getElementById('result').innerText = 'Error fetching the results.';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', getResult);
+    </script>
+</body>
+</html>
